@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Play, Clock, Shuffle } from "lucide-react"
+import { Video } from "@/models/video"
+import { GachaResponse } from "@/models/gacha"
 
 // サンプル動画データ
 const sampleVideos = [
@@ -26,31 +28,43 @@ const sampleVideos = [
 
 export default function JarujaruGacha() {
   const [duration, setDuration] = useState("")
-  const [selectedVideos, setSelectedVideos] = useState<typeof sampleVideos>([])
+  const [selectedVideos, setSelectedVideos] = useState<Video[]>([])
   const [isGachaMode, setIsGachaMode] = useState(false)
   const [totalDuration, setTotalDuration] = useState(0)
+  const [remainingSeconds, setRemainingSeconds] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleGacha = () => {
-    const targetDuration = Number.parseInt(duration)
-    if (!targetDuration || targetDuration <= 0) return
+  const handleGacha = async () => {
+    const targetMinutes = Number.parseInt(duration)
+    if (!targetMinutes || targetMinutes <= 0) return
 
-    // ランダムに動画を選択して目標時間に近づける
-    const shuffled = [...sampleVideos].sort(() => Math.random() - 0.5)
-    const selected = []
-    let currentDuration = 0
+    setIsLoading(true)
+    
+    try {
+      const response = await fetch('/api/gacha', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ minutes: targetMinutes }),
+      })
 
-    for (const video of shuffled) {
-      if (currentDuration + video.duration <= targetDuration + 2) {
-        // 2分の誤差を許容
-        selected.push(video)
-        currentDuration += video.duration
+      if (!response.ok) {
+        throw new Error('ガチャAPIエラー')
       }
-      if (currentDuration >= targetDuration) break
-    }
 
-    setSelectedVideos(selected)
-    setTotalDuration(currentDuration)
-    setIsGachaMode(true)
+      const result: GachaResponse = await response.json()
+      
+      setSelectedVideos(result.videos)
+      setTotalDuration(Math.round(result.totalDuration / 60 * 100) / 100) // 秒を分に変換して小数点2桁
+      setRemainingSeconds(result.remainingSeconds)
+      setIsGachaMode(true)
+    } catch (error) {
+      console.error('ガチャエラー:', error)
+      alert('ガチャに失敗しました。もう一度お試しください。')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const resetGacha = () => {
@@ -58,6 +72,7 @@ export default function JarujaruGacha() {
     setSelectedVideos([])
     setDuration("")
     setTotalDuration(0)
+    setRemainingSeconds(0)
   }
 
   if (!isGachaMode) {
@@ -90,11 +105,11 @@ export default function JarujaruGacha() {
                 </div>
                 <Button
                   onClick={handleGacha}
-                  disabled={!duration || Number.parseInt(duration) <= 0}
+                  disabled={!duration || Number.parseInt(duration) <= 0 || isLoading}
                   className="w-full py-6 text-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   <Shuffle className="w-5 h-5 mr-2" />
-                  ガチャる
+                  {isLoading ? "ガチャ中..." : "ガチャる"}
                 </Button>
               </div>
             </div>
@@ -120,6 +135,11 @@ export default function JarujaruGacha() {
             <Badge variant="outline" className="text-sm px-3 py-1">
               実際: {totalDuration}分
             </Badge>
+            {remainingSeconds > 0 && (
+              <Badge variant="destructive" className="text-sm px-3 py-1">
+                残り: {Math.round(remainingSeconds / 60 * 100) / 100}分
+              </Badge>
+            )}
             <Badge variant="default" className="text-sm px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500">
               {selectedVideos.length}本選出
             </Badge>
@@ -162,6 +182,7 @@ export default function JarujaruGacha() {
                 <Card
                   key={video.id}
                   className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-0 bg-white/80 backdrop-blur-sm"
+                  onClick={() => window.open(video.url, '_blank')}
                 >
                   <CardContent className="p-0">
                     <div className="relative">
@@ -176,7 +197,7 @@ export default function JarujaruGacha() {
                         </div>
                       </div>
                       <Badge className="absolute top-2 right-2 bg-black/70 text-white text-xs">
-                        {video.duration}分
+                        {Math.round(video.duration / 60 * 100) / 100}分
                       </Badge>
                     </div>
                     <div className="p-4">
