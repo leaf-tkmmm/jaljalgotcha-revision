@@ -1,49 +1,6 @@
 import { Video } from '@/models/video';
-import { GachaResponse } from '@/models/gacha';
+import { generateGachaCombination } from './route';
 
-// generateGachaCombination関数をインポートするために、元のファイルから抽出
-function generateGachaCombination(targetSeconds: number, videos: Video[]): GachaResponse {
-  const usedVideoIds = new Set<string>();
-  const selectedVideos: Video[] = [];
-  let totalDuration = 0;
-  
-  while (true) {
-    // 残り時間を計算
-    const remainingTime = targetSeconds - totalDuration;
-    
-    // 残り時間が60秒未満なら終了
-    if (remainingTime < 60) {
-      break;
-    }
-    
-    // 残り時間内に収まる未使用の動画を候補として抽出
-    const candidates = videos.filter(video => 
-      !usedVideoIds.has(video.id) && video.duration <= remainingTime
-    );
-    
-    // 候補がない場合は終了
-    if (candidates.length === 0) {
-      break;
-    }
-    
-    // 候補からランダム選択
-    const randomIndex = Math.floor(Math.random() * candidates.length);
-    const selectedVideo = candidates[randomIndex];
-    
-    // 選択した動画を結果に追加
-    selectedVideos.push(selectedVideo);
-    usedVideoIds.add(selectedVideo.id);
-    totalDuration += selectedVideo.duration;
-  }
-  
-  const remainingSeconds = targetSeconds - totalDuration;
-  
-  return {
-    videos: selectedVideos,
-    totalDuration,
-    remainingSeconds
-  };
-}
 
 describe('generateGachaCombination', () => {
   const mockVideos: Video[] = [

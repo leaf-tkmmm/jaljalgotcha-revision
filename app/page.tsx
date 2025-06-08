@@ -9,22 +9,7 @@ import { Play, Clock, Shuffle } from "lucide-react"
 import { Video } from "@/models/video"
 import { GachaResponse } from "@/models/gacha"
 
-// サンプル動画データ
-const sampleVideos = [
-  { id: 1, title: "ジャルジャル コント「電話対応」", duration: 3, thumbnail: "/placeholder.svg?height=200&width=300" },
-  { id: 2, title: "ジャルジャル コント「面接」", duration: 4, thumbnail: "/placeholder.svg?height=200&width=300" },
-  { id: 3, title: "ジャルジャル コント「カフェ」", duration: 2, thumbnail: "/placeholder.svg?height=200&width=300" },
-  { id: 4, title: "ジャルジャル コント「病院」", duration: 5, thumbnail: "/placeholder.svg?height=200&width=300" },
-  { id: 5, title: "ジャルジャル コント「コンビニ」", duration: 3, thumbnail: "/placeholder.svg?height=200&width=300" },
-  { id: 6, title: "ジャルジャル コント「美容院」", duration: 4, thumbnail: "/placeholder.svg?height=200&width=300" },
-  {
-    id: 7,
-    title: "ジャルジャル コント「レストラン」",
-    duration: 6,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-  },
-  { id: 8, title: "ジャルジャル コント「会議」", duration: 3, thumbnail: "/placeholder.svg?height=200&width=300" },
-]
+
 
 export default function JarujaruGacha() {
   const [duration, setDuration] = useState("")
@@ -36,7 +21,10 @@ export default function JarujaruGacha() {
 
   const handleGacha = async () => {
     const targetMinutes = Number.parseInt(duration)
-    if (!targetMinutes || targetMinutes <= 0) return
+    if (!targetMinutes || targetMinutes < 1 || targetMinutes > 1000) {
+      alert('1〜1000分の範囲で入力してください')
+      return
+    }
 
     setIsLoading(true)
     
@@ -99,13 +87,13 @@ export default function JarujaruGacha() {
                     onChange={(e) => setDuration(e.target.value)}
                     className="text-center text-lg py-6 border-2 border-purple-200 focus:border-purple-400 rounded-xl"
                     min="1"
-                    max="60"
+                    max="1000"
                   />
                   <Clock className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 </div>
                 <Button
                   onClick={handleGacha}
-                  disabled={!duration || Number.parseInt(duration) <= 0 || isLoading}
+                  disabled={!duration || Number.parseInt(duration) < 1 || Number.parseInt(duration) > 1000 || isLoading}
                   className="w-full py-6 text-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   <Shuffle className="w-5 h-5 mr-2" />
@@ -197,7 +185,7 @@ export default function JarujaruGacha() {
                         </div>
                       </div>
                       <Badge className="absolute top-2 right-2 bg-black/70 text-white text-xs">
-                        {Math.round(video.duration / 60 * 100) / 100}分
+                        {Math.floor(video.duration / 60)}:{String(video.duration % 60).padStart(2, '0')}
                       </Badge>
                     </div>
                     <div className="p-4">

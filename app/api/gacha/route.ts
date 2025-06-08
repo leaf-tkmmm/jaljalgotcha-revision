@@ -20,7 +20,7 @@ function loadVideos(): Video[] {
   return cachedVideos;
 }
 
-function generateGachaCombination(targetSeconds: number, videos: Video[]): GachaResponse {
+ export function generateGachaCombination(targetSeconds: number, videos: Video[]): GachaResponse {
   const usedVideoIds = new Set<string>();
   const selectedVideos: Video[] = [];
   let totalDuration = 0;
