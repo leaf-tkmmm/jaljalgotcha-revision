@@ -1,0 +1,82 @@
+[
+  {
+    "id": "video_001",
+    "title": "ジャルジャル コント「電話対応」",
+    "duration": 185,
+    "url": "https://youtube.com/watch?v=example1",
+    "thumbnail": "https://img.youtube.com/vi/example1/hqdefault.jpg",
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  },
+  {
+    "id": "video_002", 
+    "title": "ジャルジャル コント「面接」",
+    "duration": 240,
+    "url": "https://youtube.com/watch?v=example2",
+    "thumbnail": "https://img.youtube.com/vi/example2/hqdefault.jpg", 
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  },
+  {
+    "id": "video_003",
+    "title": "ジャルジャル コント「カフェ」", 
+    "duration": 120,
+    "url": "https://youtube.com/watch?v=example3",
+    "thumbnail": "https://img.youtube.com/vi/example3/hqdefault.jpg",
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  },
+  {
+    "id": "video_004",
+    "title": "ジャルジャル コント「病院」",
+    "duration": 300,
+    "url": "https://youtube.com/watch?v=example4", 
+    "thumbnail": "https://img.youtube.com/vi/example4/hqdefault.jpg",
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  },
+  {
+    "id": "video_005", 
+    "title": "ジャルジャル コント「コンビニ」",
+    "duration": 195,
+    "url": "https://youtube.com/watch?v=example5",
+    "thumbnail": "https://img.youtube.com/vi/example5/hqdefault.jpg",
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  },
+  {
+    "id": "video_006",
+    "title": "ジャルジャル コント「美容院」", 
+    "duration": 220,
+    "url": "https://youtube.com/watch?v=example6",
+    "thumbnail": "https://img.youtube.com/vi/example6/hqdefault.jpg",
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  },
+  {
+    "id": "video_007",
+    "title": "ジャルジャル コント「レストラン」",
+    "duration": 360,
+    "url": "https://youtube.com/watch?v=example7",
+    "thumbnail": "https://img.youtube.com/vi/example7/hqdefault.jpg", 
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  },
+  {
+    "id": "video_008",
+    "title": "ジャルジャル コント「会議」",
+    "duration": 180,
+    "url": "https://youtube.com/watch?v=example8",
+    "thumbnail": "https://img.youtube.com/vi/example8/hqdefault.jpg",
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  },
+  {
+    "id": "video_009", 
+    "title": "ジャルジャル コント「駅」",
+    "duration": 155,
+    "url": "https://youtube.com/watch?v=example9",
+    "thumbnail": "https://img.youtube.com/vi/example9/hqdefault.jpg",
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  },
+  {
+    "id": "video_010",
+    "title": "ジャルジャル コント「映画館」",
+    "duration": 275,
+    "url": "https://youtube.com/watch?v=example10", 
+    "thumbnail": "https://img.youtube.com/vi/example10/hqdefault.jpg",
+    "channel_id": "UChwgNUWPM-ksOP3BbfQHS5Q"
+  }
+]
